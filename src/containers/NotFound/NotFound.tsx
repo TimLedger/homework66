@@ -4,6 +4,7 @@ import './NotFound.css';
 const NotFound = () => {
   return (
     <div className='not-found'>
+      <div className="sity"></div>
       <div className="sky"></div>
       <div className='frame'>
         <div className='sun'></div>
