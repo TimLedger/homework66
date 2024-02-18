@@ -103,7 +103,7 @@ const FormMeal: React.FC = () => {
           <option value="" className='form-option'>Прием пищи</option>
           {types &&
             types.map((type) => (
-              <option key={type.id} value={type.id} className='form-option'>
+              <option key={type.id} value={type.title} className='form-option'>
                 {type.title}
               </option>
           ))}
