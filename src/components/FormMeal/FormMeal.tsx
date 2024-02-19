@@ -12,7 +12,7 @@ const FormMeal: React.FC = () => {
   const [filling, setFilling] = useState<ApiMeal>({
     type: '',
     description: '',
-    calories: 0,
+    calories: '',
   });
   const [types, setTypes] = useState<ApiTypeMeal[] | null>(null);
 
@@ -66,18 +66,25 @@ const FormMeal: React.FC = () => {
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       if (params.id) {
-        await axiosApi.put('/meals/' + params.id + '.json', filling);
+        await axiosApi.put('/meals/' + params.id + '.json', {
+          ...filling,
+          calories: parseInt(filling.calories) 
+        });
       } else {
-        await axiosApi.post('/meals.json', filling);
+        await axiosApi.post('/meals.json', {
+          ...filling,
+          calories: parseInt(filling.calories) 
+        });
         navigate('/');
       }
     } finally {
       setLoading(false);
     }
   };
+  
 
   let button = (
     <button type="submit" className="form-submit-btn">

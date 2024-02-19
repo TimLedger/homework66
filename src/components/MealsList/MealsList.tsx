@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 import './MealsList.css';
 import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";
 
-const DatesList = () => {
+interface TotalCaloriesProps {
+  onTotalCalories: (caloriesNumber: number) => void;
+} 
+
+const MealsList: React.FC<TotalCaloriesProps> = ({ onTotalCalories }) => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -22,8 +26,11 @@ const DatesList = () => {
           id
         })).reverse();
         setMeals(reversedMeals);
+        const caloriesNumber = reversedMeals.reduce((acc, meal) => acc + parseInt(meal.calories), 0);
+        onTotalCalories(caloriesNumber);
       } else {
         setMeals([]);
+        onTotalCalories(0);
       }
     } finally {
       setLoading(false);
@@ -74,4 +81,4 @@ const DatesList = () => {
   );
 };
 
-export default DatesList;
+export default MealsList;

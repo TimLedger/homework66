@@ -1,7 +1,7 @@
 export interface ApiMeal {
     type: string,
     description: string,
-    calories: number,
+    calories: string,
 } 
 
 export interface Meal extends ApiMeal{
