@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Preloader from '../Preloader/Preloader';
+import DatePicker from 'react-datepicker'; 
+import 'react-datepicker/dist/react-datepicker.css'; 
 import { ApiMeal, ApiTypeMeal } from '../../types';
 import axiosApi from '../../axiosApi';
 import './FormMeal.css';
@@ -13,6 +15,7 @@ const FormMeal: React.FC = () => {
     type: '',
     description: '',
     calories: '',
+    date: new Date() 
   });
   const [types, setTypes] = useState<ApiTypeMeal[] | null>(null);
 
@@ -37,6 +40,7 @@ const FormMeal: React.FC = () => {
             type: mealData.type,
             description: mealData.description,
             calories: mealData.calories,
+            date: mealData.date ? new Date(mealData.date) : new Date() 
           });
         } finally {
           setLoading(false);
@@ -63,6 +67,13 @@ const FormMeal: React.FC = () => {
     }
   };
 
+  const dateChange = (date: Date) => {
+    setFilling((prevState) => ({
+      ...prevState,
+      date: date
+    }));
+  };
+
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -71,12 +82,14 @@ const FormMeal: React.FC = () => {
       if (params.id) {
         await axiosApi.put('/meals/' + params.id + '.json', {
           ...filling,
-          calories: parseInt(filling.calories) 
+          calories: parseInt(filling.calories),
+          date: filling.date.toISOString() 
         });
       } else {
         await axiosApi.post('/meals.json', {
           ...filling,
-          calories: parseInt(filling.calories) 
+          calories: parseInt(filling.calories),
+          date: filling.date.toISOString()
         });
         navigate('/');
       }
@@ -99,6 +112,12 @@ const FormMeal: React.FC = () => {
   return (
     <div className="form-frame">
       <form onSubmit={onFormSubmit} autoComplete="off" className="form">
+        <DatePicker 
+          selected={filling.date}
+          onChange={dateChange}
+          className="form-input"
+          dateFormat="dd/MM/yyyy"
+        />
         <select
           id="type"
           name="type"

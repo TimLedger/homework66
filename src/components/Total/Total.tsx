@@ -10,7 +10,7 @@ const Total: React.FC<RandomDateProps> = ({ totalCalories }) => {
   
   return (
     <div className='total-frame'>
-        <span>Всего каллорий: {totalCalories}</span>
+        <span>Всего каллорий за сегодня: {totalCalories}</span>
         <Link className='tooltip-container' to="/meals/new"><IoAdd /><span className='tooltip tooltip-big'>Новая запись</span></Link>
     </div>
   );
